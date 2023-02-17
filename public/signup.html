@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css.css">
     <title>Signup</title>
 </head>
-<body>
-    <p>boobs</p>
-    <fieldset>
-        <legend>Skjemaet vårt</legend>
+<body style="background-color: black;">
+    <fieldset style="margin-left: 35rem;margin-right: 40rem;margin-top: 10rem; border-color: red; color: whitesmoke;">
+        <legend style="margin-left: 1rem;margin-right: 1rem; padding-left: 1rem;padding-right: 1rem;">Create User</legend>
 
-        <form action="/sendInn" method="post">
+        <form action="/sendInn" method="post" style="margin: 3rem ;">
 
 
-            <label for="username">Singup: </label>
+            <label for="username">Username</label><br>
             <input type="text" name="username" id="username" placeholder="username"><br>
-            <label for="password">Singup: </label>
+            <label for="password">Password</label><br>
             <input type="password" name="password" id="password" placeholder="password"><br>
+            <p id="errormsg"></p>
 
             <button>Send inn</button> 
+            
 
         </form>
     </fieldset>

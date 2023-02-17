@@ -1,0 +1,15 @@
+body{
+    background-color: #191919;
+    color: whitesmoke;
+}
+
+
+
+.IndexStyle{
+    margin-left: 35rem;
+    margin-right: 40rem;
+    margin-top: 10rem; 
+    border-color: red; 
+    color: whitesmoke; 
+    align-content: center;
+}

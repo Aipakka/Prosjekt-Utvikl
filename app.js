@@ -4,8 +4,6 @@ const path=require("path");
 const { response }=require("express");
 const db=require("better-sqlite3")("prosjektdb.sdb");
 const session = require("express-session");
-const { request } = require("http");
-const { Script } = require("vm");
 const app=express();
 const port =3000;
 app.use(express.urlencoded({extended: true}));

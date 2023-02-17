@@ -24,8 +24,9 @@ app.post("/sendinn",  async(request, response) =>{
 app.post("/login",  async(request, response) =>{
     const data = request.body;
     let hash = await bcrypt.hash(data.password, 10)
-    db.prepare("SELECT username, password FROM user WHERE username=").run(data.username, hash)
+    db.prepare("SELECT username, password FROM user WHERE username=?").get(data.username)
     response.redirect("/login.html")
+    console.log("titenjsofs")
     
 
 })

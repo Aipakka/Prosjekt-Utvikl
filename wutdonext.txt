@@ -1,0 +1,3 @@
+Legg til items å kjøpe i databasen manuellt
+
+legg til å adde produkter til handlekurv

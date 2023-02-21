@@ -25,7 +25,7 @@ app.post("/login",  async(request, response) =>{
     const data = request.body;
     let hash = await bcrypt.hash(data.password, 10)
     db.prepare("SELECT username, password FROM user WHERE username=?").get(data.username)
-    response.redirect("/login.html")
+    response.redirect("/shopsite.html")
     console.log("titenjsofs")
     
 

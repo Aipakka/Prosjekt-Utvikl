@@ -11,36 +11,16 @@
 
 <body>
     <fieldset class="FirstIndexStyle">
-        <legend style="margin-left: 1rem;margin-right: 1rem; padding-left: 1rem;padding-right: 1rem;">Item 1</legend>
-        <form action="/kjøpItem1" method="post">
-            <img>
-
-            <button>Send inn</button>
-        </form>
-    </fieldset>
-
-    <fieldset class="IndexStyle">
-        <legend style="margin-left: 1rem;margin-right: 1rem; padding-left: 1rem;padding-right: 1rem;">Item 2</legend>
-        <form action="/kjøpItem2" method="post">
-            <img>
-
-            <button>Send inn</button>
-        </form>
-    </fieldset>
-
-    <fieldset class="IndexStyle">
-        <legend style="margin-left: 1rem;margin-right: 1rem; padding-left: 1rem;padding-right: 1rem;">Item 3</legend>
-        <form action="/kjøpItem3" method="post">
-            <img>
-
-            <button>Send inn</button>
-        </form>
-    </fieldset>
-
-    <fieldset class="LastIndexStyle">
-        <legend style="margin-left: 1rem;margin-right: 1rem; padding-left: 1rem;padding-right: 1rem;">Item 4</legend>
-        <form action="/kjøpItem4" method="post">
-            <img>
+        <legend style="margin-left: 1rem;margin-right: 1rem; padding-left: 1rem;padding-right: 1rem;">Items</legend>
+        <form action="/cart" method="post">
+            <input type="radio" name="items" id="item1" value="bread">
+            <label for="item1">bread</label><br>
+            <input type="radio" name="items" id="item2" value="cereal">
+            <label for="item2">cereal</label><br>
+            <input type="radio" name="items" id="item3" value="milk">
+            <label for="item3">milk</label><br>
+            <input type="radio" name="items" id="item4" value="nutz">
+            <label for="item4">nutz</label><br>
 
             <button>Send inn</button>
         </form>

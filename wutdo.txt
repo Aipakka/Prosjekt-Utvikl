@@ -1,0 +1,1 @@
+log ut / delete user on shop site or in cart

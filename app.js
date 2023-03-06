@@ -42,11 +42,18 @@ app.post("/login",  async(request, response) =>{
     if (logindata && await bcrypt.compare(data.password, logindata.password) ){
         request.session.userloggedinidfkwdwhtdttiifa = true;
         request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol = logindata;;;;;;
+        console.log(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol)
         response.redirect("/shopsite.html")
     }else{
         response.redirect("/fuckdegfeilpassord.html")
     }
+})
 
+app.post("/deleteuser", async(request,response) =>{
+    const data = request.body
+    db.prepare("DELETE FROM shoppinCart WHERE user_iduser = '?'").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+    db.prepare("DELETE FROM user WHERE iduser = '?' AND  username = '?'").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.username)
+    response.redirect("/")
 
 })
 app.post("/cart",  async(request, response) =>{

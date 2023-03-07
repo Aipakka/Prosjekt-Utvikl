@@ -42,38 +42,55 @@ app.post("/login",  async(request, response) =>{
     if (logindata && await bcrypt.compare(data.password, logindata.password) ){
         request.session.userloggedinidfkwdwhtdttiifa = true;
         request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol = logindata;;;;;;
-        console.log(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol)
+
         response.redirect("/shopsite.html")
     }else{
         response.redirect("/fuckdegfeilpassord.html")
     }
 })
 
-app.post("/deleteuser", async(request,response) =>{
-    const data = request.body
-    db.prepare("DELETE FROM shoppinCart WHERE user_iduser = '?'").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
-    db.prepare("DELETE FROM user WHERE iduser = '?' AND  username = '?'").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.username)
+app.post("/mordavsel", async(request,response) =>{
+    db.prepare("DELETE FROM shoppinCart WHERE user_iduser = ?").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+    db.prepare("DELETE FROM user WHERE iduser = ? AND username = ?").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.username)
     response.redirect("/")
-
+})
+app.post("/altf4", async(request,response) =>{
+    console.log("jnflkøerngkjlwwjotfwgripfoegphidfjsdrftgyhujikokoijytrew1234567890++0987654321'1234567890+0987654321'2345678987654321'2345678987652qaw3sedrft")
+    request.session.destroy();
+    response.redirect("/index.html")
 })
 app.post("/cart",  async(request, response) =>{
     const item = request.body;
     console.log(item)
-    if (item = "bread"){    
+    if (item == "bread"){    
     db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 1)
-    response.render("cart.hbs")
-    }else if (item = "cereal"){    
+    shoppinglist = db.prepare("SELECT products_idproducts FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+    response.render("cart.hbs",{
+        shoplist: shoppinglist
+    })
+    item = "";
+    }else if (item == "cereal"){    
         db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 2)
-        response.render("cart.hbs")
-        }else if (item = "milk"){    
+        shoppinglist = db.prepare("SELECT products_idproducts FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+        response.render("cart.hbs",{
+            shoplist: shoppinglist
+        })
+        item = "";
+        }else if (item == "milk"){    
             db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 3)
-            response.render("cart.hbs")
-            }else if (item = "nutz"){    
+            shoppinglist = db.prepare("SELECT products_idproducts FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+            response.render("cart.hbs",{
+                shoplist: shoppinglist
+                
+            })
+            item = "";
+            }else if (item == "nutz"){    
                 db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 4)
                 shoppinglist = db.prepare("SELECT products_idproducts FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
                 response.render("cart.hbs",{
                     shoplist: shoppinglist
                 })
+                item = "";
                 }
 
 })

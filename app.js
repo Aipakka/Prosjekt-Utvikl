@@ -1,11 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const path = require("path");
-const { response } = require("express");
 const db = require("better-sqlite3")("ShoppingDB.sdb");
 const session = require("express-session");
 const hbs = require("hbs");
-const { isArray } = require("util");
+const { request } = require("http");
+const { response } = require("express");
 const app = express();
 const port = 3000;
 app.use(express.urlencoded({ extended: true }));
@@ -17,6 +17,7 @@ app.set("view engine", hbs)
 app.set('views', viewPath)
 hbs.registerPartials(partialsPath)
 
+
 app.use(session({
     secret: "tiddiesjihugyftdchgvjbknlkjøoiu9y8t7r6dytfuhkpåiuy9t8fudytchgjvbklnøjoipu90y89t786rdycghjvaszxdfybklnkijy8t9786fyuvh",
     resave: false,
@@ -24,7 +25,7 @@ app.use(session({
 }))
 
 
-
+//lager brukere og sjekker at brukernavnet ikke kan vere et duplikat
 app.post("/sendinn", async (request, response) => {
     const data = request.body;
     let hash = await bcrypt.hash(data.password, 10)
@@ -36,6 +37,7 @@ app.post("/sendinn", async (request, response) => {
     }
 })
 
+//logger brukeren inn med info som blir sjekket opp mot databasen, og setter opp en session til brukeren
 app.post("/login", async (request, response) => {
     const data = request.body;
     let hash = await bcrypt.hash(data.password, 10)
@@ -46,27 +48,33 @@ app.post("/login", async (request, response) => {
 
         response.redirect("/shopsite.html")
     } else {
-        response.redirect("/fuckdegfeilpassord.html")
+        response.redirect("/feilpassord.html")
     }
 })
-
+app.post("/lagebrukerfraloginn", (request, response) =>{
+    response.redirect("/signup.html")
+})
+//sletting av bruker fra databasen
 app.post("/mordavsel", async (request, response) => {
     db.prepare("DELETE FROM shoppinCart WHERE user_iduser = ?").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
     db.prepare("DELETE FROM user WHERE iduser = ? AND username = ?").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.username)
     response.redirect("/")
 })
+
+//post metode for å logge ut brukeren
 app.post("/altf4", async (request, response) => {
-    console.log("jnflkøerngkjlwwjotfwgripfoegphidfjsdrftgyhujikokoijytrew1234567890++0987654321'1234567890+0987654321'2345678987654321'2345678987652qaw3sedrft")
     request.session.destroy();
     response.redirect("/index.html")
 })
+
+//koden som sjekker hva brukeren har valgt å legge til i handlekurven, for å så legge det til å knytte
+//det opp mot brukeren som la inn forespørselen
 app.post("/cart", (request, response) => {
     const item = request.body.items;
     console.log(item)
     if (item === "bread") {
         db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts, description) VALUES (?, ?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 1, item)
-        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
-        console.log(shoppinglist)
+        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").all(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser))
         response.render("cart.hbs", {
             shoplist: shoppinglist
         })
@@ -74,11 +82,8 @@ app.post("/cart", (request, response) => {
         console.log("u should want to die, bread failed")
     }
     if (item === "cereal") {
-        console.log("cope")
-        db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 2)
-        console.log("cope2")
-        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
-        console.log("cope3")
+        db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts, description) VALUES (?, ?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 2, item)
+        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").all(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser))
         response.render("cart.hbs", {
             shoplist: shoppinglist
         })
@@ -87,8 +92,8 @@ app.post("/cart", (request, response) => {
         console.log("u should want to die, cereal failed")
     }
     if (item === "milk") {
-        db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 3)
-        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+        db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts, description) VALUES (?, ?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 3, item)
+        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").all(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser))
         response.render("cart.hbs", {
             shoplist: shoppinglist
         })
@@ -97,8 +102,8 @@ app.post("/cart", (request, response) => {
         console.log("u should want to die, milk failed")
     }
     if (item === "nutz") {
-        db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser), 4)
-        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").get(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser))
+        db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts, description) VALUES (?, ?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 4, item)
+        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").all(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser))
         response.render("cart.hbs", {
             shoplist: shoppinglist
         })
@@ -108,10 +113,30 @@ app.post("/cart", (request, response) => {
 
 })
 
+//metode for å komme deg til handlekurven din uten å legge noe til i den
+app.post("/cartalternate", (request, response) => {
+    shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").all(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser))
+    response.render("cart.hbs", {
+        shoplist: shoppinglist
+    })
+})
+
+//endrer passord knyttet til brukeren i databasen og logger brukeren ut
+app.post("/pswdchange", async(request, response) =>{
+    const pswdchang = request.body;
+    let hash = await bcrypt.hash(pswdchang.password, 10)
+    db.prepare("UPDATE user SET password = ? WHERE iduser = ? AND username = ?;").run(hash, request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.username)
+    request.session.destroy()
+    response.redirect("/index.html")
+
+})
+
+//setter siden som du skal dra til om ud bare drar til localhost uten noe annet
 app.get("/", (request, response) => {
     response.redirect("/index.html")
 })
 
+//sjekker en spesifikk port som er satt tidligere og sjekker når den er tilgjengelig, dette er hvro localhosten kjører
 app.listen(port, bgg)
 function bgg() {
     console.log("i am listenin g to your mother aslo called: " + port)

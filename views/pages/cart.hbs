@@ -8,6 +8,21 @@
     <title>Document</title>
 </head>
 <body>
-    {{shoplist}}
+    <fieldset class="FirstIndexStyle" >
+        <legend style="margin-left: 1rem;margin-right: 1rem; padding-left: 1rem;padding-right: 1rem;">Handlevogn</legend>
+        <p>Hva du har i din handlevogn:</p>
+    {{#each shoplist}}
+    {{this.description}}<br>
+    {{/each}}
+    <br>
+    <br><hr class=="FirstIndexStyle">
+    <br>
+    <form action="/pswdchange" method="post">
+            <label for="password">Password</label><br>
+            <input type="password" name="password" id="password" placeholder="password"><br>
+            <p id="errormsg"></p>
+            <button>Trykk her for å endre passord til det som er skrevet i feltet over, samt logge ut</button>
+    </form>
+    </fieldset>
 </body>
 </html>

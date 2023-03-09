@@ -65,7 +65,7 @@ app.post("/cart", (request, response) => {
     console.log(item)
     if (item === "bread") {
         db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts, description) VALUES (?, ?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 1, item)
-        shoppinglist = db.prepare("SELECT products_idproducts FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
         console.log(shoppinglist)
         response.render("cart.hbs", {
             shoplist: shoppinglist
@@ -77,7 +77,7 @@ app.post("/cart", (request, response) => {
         console.log("cope")
         db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 2)
         console.log("cope2")
-        shoppinglist = db.prepare("SELECT products_idproducts FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
         console.log("cope3")
         response.render("cart.hbs", {
             shoplist: shoppinglist
@@ -88,10 +88,9 @@ app.post("/cart", (request, response) => {
     }
     if (item === "milk") {
         db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser, 3)
-        shoppinglist = db.prepare("SELECT products_idproducts FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
+        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").get(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser)
         response.render("cart.hbs", {
             shoplist: shoppinglist
-
         })
 
     } else {
@@ -99,11 +98,10 @@ app.post("/cart", (request, response) => {
     }
     if (item === "nutz") {
         db.prepare("INSERT INTO shoppinCart (user_iduser, products_idproducts) VALUES (?, ?);").run(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser), 4)
-        shoppinglist = db.prepare("SELECT products_idproducts FROM shoppinCart WHERE user_iduser=?").get(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser))
+        shoppinglist = db.prepare("SELECT description FROM shoppinCart WHERE user_iduser=?").get(Number(request.session.dataabouttheuserwhomiscurentlyloggedinntothiswebsitlol.iduser))
         response.render("cart.hbs", {
             shoplist: shoppinglist
         })
-        item = "";
     } else {
         console.log("u should want to die, nutz failed")
     }
